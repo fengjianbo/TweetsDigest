@@ -1,0 +1,6 @@
+cron:
+- description: Tweets Digest
+  url: /e/twdigest
+  schedule: every monday 00:00
+  timezone: Asia/Shanghai
+

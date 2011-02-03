@@ -1,0 +1,31 @@
+<h3>设置 TweetsDigest</h3>
+<form action="" method="post">
+<table class="widefat">
+    <tbody>
+        <tr><th width="15%">用户名称</th><td width="85%"><input type="text" value="{{name}}" name="name" onclick="this.select()"/></td></tr>
+        <tr><th width="15%">采集条数</th><td width="85%"><input type="text" value="{{count}}" name="count" onclick="this.select()" /></td></tr>
+        <tr><th width="15%">采集地址</th><td width="85%">
+            {% if url %}
+                {{url}}
+            {% else %}
+                无
+            {% endif %}</td>
+        </tr>
+        <tr><th width="15%">所属目录</th><td width="85%">
+            <select name="category" id="category_selected">
+                    <option value="0">无</option>
+                    {% for c in categories %}
+                    <option value="{{c.name}}">{{c.name}}</option>
+                    {% endfor %}
+            </select>
+            <script>category_selected.value="{{category}}"</script>
+        </td></tr>
+        <tr><th width="15%">设置标签</th><td width="85%"><input type="text" value="{{tags}}" name="tags" onclick="this.select()" /></td></tr>
+        <tr><th width="15%">最近更新</th><td width="85%">ID：{{lastid}} <a href="?reset=1">重置</td></tr>
+        <tr><td>Check Robot <a href="/e/twdigest" target="_blank">http://{{domain}}/e/twdigest</a><br/>Powered By <a href="http://twitter.com/leiyue" target="_blank">Lei Yue</a></td>
+        </tr>
+    </tbody>
+</table>
+<input type="submit" value="确定">
+</form>
+
