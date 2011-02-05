@@ -12,9 +12,9 @@ import datetime
 class TweetsDigest(Plugin):
     def __init__(self):
         Plugin.__init__(self,__file__)
-        self.author="Lei Yue"
-        self.authoruri="http://blog.cqlianan.com"
-        self.uri="http://blog.cqlianan.com"
+        self.author="LeiYue"
+        self.authoruri="http://www.cqlianan.com"
+        self.uri="http://www.cqlianan.com"
         self.description="TweetsDigest fetch user's timeline to  post  on Micolog from twitter."
         self.register_urlmap("twdigest",self.getRobot)
         self.name="TweetsDigest"
@@ -28,18 +28,23 @@ class TweetsDigest(Plugin):
         url = OptionSet.getValue("url",default="0")
         category = OptionSet.getValue("category",default="0")
         tags = OptionSet.getValue("tags",default="tweetsdigest")
+        date = OptionSet.getValue("date",default=False)
         lastid = OptionSet.getValue("lastid",default="0")
         categories = Category.all()
         url = (url == "0") and None or url
+        datechecked = date and 'checked="checked"' or ''
         domain = os.environ['HTTP_HOST']
-        return self.render_content('TweetsDigest.html',{'name':name ,'count':count,'url':url,'categories':categories,'category':category,'tags':tags,'lastid':lastid,'domain':domain})
+        return self.render_content('TweetsDigest.html',{'name':name ,'count':count,'url':url,'categories':categories,'category':category,'tags':tags,'datechecked':datechecked,'lastid':lastid,'domain':domain})
 
     def post(self,page):
         number = (locale.atoi(page.param('count')) >= 200 ) and '200' or page.param('count')
+        datechecked = page.param("date")
+        date = (datechecked == "1") and True or False
         OptionSet.setValue("name",page.param("name"))
         OptionSet.setValue("count",number)
         OptionSet.setValue("url",('http://api.twitter.com/statuses/user_timeline/'+page.param('name')+'.xml?count='+number))
         OptionSet.setValue("category",page.param("category"))
+        OptionSet.setValue("date",date)
         OptionSet.setValue("tags",page.param("tags"))
         return self.get(page)
 
@@ -59,6 +64,7 @@ class TweetsDigest(Plugin):
         category=OptionSet.getValue("category")
         tags=OptionSet.getValue("tags")
         lastid=OptionSet.getValue("lastid")
+        date = OptionSet.getValue("date")
         count=0
 
         result = urlfetch.fetch(url)
@@ -77,7 +83,9 @@ class TweetsDigest(Plugin):
                 created_time = datetime.datetime.strptime(created_at, '%a %b %d %H:%M:%S +0000 %Y')
                 if time_earlier > created_time:
                     break
-                html = html + '<li>' + tweet + '</li>\n'
+                if date:
+                    tweet += ' (' + datetime.datetime.strftime(created_time, '%Y-%m-%d') + ')'
+                html += '<li>' + tweet + '</li>\n'
                 count += 1
             html += '</ul>\n'
         else:
