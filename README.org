@@ -1,0 +1,26 @@
+* Overview
+  TweetsDigest is a plugin designed for Micolog on Google App Engine. \\
+  TweetsDigest fetch user's timeline to post on Micolog from twitter. \\
+  TweetsDigest is written in Python, and open sourced under GPLv2. \\
+
+* Installation
+  Download TweetsDigest from github
+  : git clone https://github.com/leiyue/TweetsDigest.git
+  Put it into Micolog's plugins directory
+  : mv TweetsDigest /some_patch/micolog/plugins/
+  Make sure add the following lines into Micolog's cron.yaml
+  : cp /some_patch/micolog/plugins/TweetsDigest/cron.yaml /some_patch/micolog/
+  Or add it manually
+  : cron:
+  : - description: Tweets Digest
+  :   url: /e/twdigest
+  :   schedule: every monday 00:00
+  :   timezone: Asia/Shanghai
+** Dependencies
+   TweetsDigest depends on [[github.com/xuming/micolog.git][Micolog]] written by [[xuming.net][xuming]] \\
+   Make sure you have the lastest Micolog running on GAE. *Nor GFW will block you.* \\
+   May *NOT* work with older version of Micolog.
+
+* Miscellaneous
+  1. If you have an issue/bug/feature request, use the issue tracker on git or drop a mail to mr.leiyue[at]gmail[dot]com.
+  2. See also: [[www.cqlianan.com][www.cqlianan.com]]
