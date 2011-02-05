@@ -1,7 +1,9 @@
 * Overview
-  TweetsDigest is a plugin designed for Micolog on Google App Engine.\\
-  TweetsDigest fetch user's timeline to post on Micolog from twitter.\\
-  TweetsDigest is written in Python, and open sourced under GPLv2.\\
+  TweetsDigest is a plugin designed for Micolog on Google App Engine.
+
+  TweetsDigest fetch user's timeline to post on Micolog from twitter.
+
+  TweetsDigest is written in Python, and open sourced under GPLv2.
 
 * Installation
   Download TweetsDigest from github
@@ -17,9 +19,11 @@
   :   schedule: every monday 00:00
   :   timezone: Asia/Shanghai
 ** Dependencies
-   TweetsDigest depends on [[github.com/xuming/micolog.git][Micolog]] written by [[xuming.net][xuming]]\\
-   Make sure you have the lastest Micolog running on GAE. *Nor GFW will block you.*\\
-   May *NOT* work with older version of Micolog.\\
+   TweetsDigest depends on [[github.com/xuming/micolog.git][Micolog]] written by [[xuming.net][xuming]]
+
+   Make sure you have the lastest Micolog running on GAE. *Nor GFW will block you.*
+
+   May *NOT* work with older version of Micolog.
 
 * Miscellaneous
   1. If you have an issue/bug/feature request, use the issue tracker on git or drop a mail to mr.leiyue[at]gmail[dot]com.
