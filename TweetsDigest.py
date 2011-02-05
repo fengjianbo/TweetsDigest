@@ -18,7 +18,7 @@ class TweetsDigest(Plugin):
         self.description="TweetsDigest fetch user's timeline to post on Micolog from twitter."
         self.register_urlmap("twdigest",self.getRobot)
         self.name="TweetsDigest"
-        self.version="0.1.1"
+        self.version="0.1.2"
 
     def get(self,page):
         if page.param("reset")=='1':
