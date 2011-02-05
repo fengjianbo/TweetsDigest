@@ -15,7 +15,7 @@ class TweetsDigest(Plugin):
         self.author="LeiYue"
         self.authoruri="http://www.cqlianan.com"
         self.uri="http://www.cqlianan.com"
-        self.description="TweetsDigest fetch user's timeline to  post  on Micolog from twitter."
+        self.description="TweetsDigest fetch user's timeline to post on Micolog from twitter."
         self.register_urlmap("twdigest",self.getRobot)
         self.name="TweetsDigest"
         self.version="0.1.1"
