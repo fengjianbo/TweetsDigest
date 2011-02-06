@@ -18,6 +18,10 @@
   :   url: /e/twdigest
   :   schedule: every monday 00:00
   :   timezone: Asia/Shanghai
+  Upload Micolog to Google App Engine by appcfg.py
+  : /gae_sdk_path/appcfg.py update /some_patch/micolog/
+  Activate TweetsDigest plugin in Micolog's admin
+
 ** Dependencies
    TweetsDigest depends on [[github.com/xuming/micolog.git][Micolog]] written by [[xuming.net][xuming]]
 
