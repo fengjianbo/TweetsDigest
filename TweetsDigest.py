@@ -92,7 +92,7 @@ class TweetsDigest(Plugin):
             return
         if not count == 0:
             entry = Entry()
-            entry.title =' Weekly Twitter Digest ' + time_now.strftime('%F') + ' | ' + time_earlier.strftime('%F')
+            entry.title ='Weekly Twitter Digest ' + time_now.strftime('%F') + ' | ' + time_earlier.strftime('%F')
             entry.content = '<style type="text/css">ul{list-style: circle; list-style-type: circle; list-style-position: initial; list-style-image: initial; margin: 0px 0px 0px 25px;}</style>\n\n' + html
             if not category == '0':
                 cs = Category.all().filter('name =',category)
