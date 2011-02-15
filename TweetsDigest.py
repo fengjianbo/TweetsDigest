@@ -70,8 +70,11 @@ class TweetsDigest(Plugin):
         date = OptionSet.getValue("date")
         count=0
 
-	#FIXME:Add code to report error if url is invalid
-        result = urlfetch.fetch(url)
+        try:
+            result=urlfetch.fetch(url)
+        except:#FIXME：Add some codes to notice the error
+            return
+
         lastupdate = OptionSet.getValue("lastupdate", "Mon Jan 1 00:00:00 +0000 1900")
 	time_now = datetime.datetime.utcnow()
         if result.status_code == 200:
@@ -112,4 +115,3 @@ class TweetsDigest(Plugin):
             OptionSet.setValue("lastupdate",time_now.strftime('%a %b %d %H:%M:%S +0000 %Y'))
 #            print 'Success!'
             return
-	    entry.title += time_now.strftime('%F') + ' | ' + time_earlier.strftime('%F')
