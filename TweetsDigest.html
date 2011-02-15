@@ -2,18 +2,19 @@
 <form action="" method="post">
 <table class="widefat">
     <tbody>
-        <tr><th width="15%">用户名称</th><td width="85%"><input type="text" value="{{name}}" name="name" onclick="this.select()"/></td></tr>
+        <tr><th width="15%">文章标题</th><td width="85%"><input type="text" value="{{title}}" name="title" onclick="this.select()"/>（采集后发布的文章标题）</td></tr>
+        <tr><th width="15%">用户名称</th><td width="85%"><input type="text" value="{{name}}" name="name" onclick="this.select()"/>（Twitter用户名）</td></tr>
+        <tr><th width="15%">采集条数</th><td width="85%"><input type="text" value="{{count}}" name="count" onclick="this.select()" /></td></tr>
         <tr><th width="15%">采集条数</th><td width="85%"><input type="text" value="{{count}}" name="count" onclick="this.select()" /></td></tr>
         <tr><th width="15%">采集地址</th><td width="85%">
             {% if url %}
                 {{url}}
             {% else %}
-                无
+                未设置
             {% endif %}</td>
         </tr>
-        <tr><th width="15%">所属目录</th><td width="85%">
+        <tr><th width="15%">所属分类</th><td width="85%">
             <select name="category" id="category_selected">
-                    <option value="0">无</option>
                     {% for c in categories %}
                     <option value="{{c.name}}">{{c.name}}</option>
                     {% endfor %}
@@ -22,8 +23,10 @@
         </td></tr>
         <tr><th width="15%">设置标签</th><td width="85%"><input type="text" value="{{tags}}" name="tags" onclick="this.select()" /></td></tr>
         <tr><th width="15%">日期选项</th><td width="85%">是否添加发布日期&nbsp;&nbsp;<input type="checkbox" value="1" name="date" {{datechecked}} /></td></tr>
-        <tr><th width="15%">最近更新</th><td width="85%">ID：{{lastid}} <a href="?reset=1">重置</td></tr>
-        <tr><td>Check Robot&nbsp;<a href="/e/twdigest" target="_blank">http://{{domain}}/e/twdigest</a><br/>Powered By&nbsp;<a href="http://twitter.com/leiyue" target="_blank">LeiYue</a>&nbsp;|&nbsp;<a href="http://www.cqlianan.com">Unity</a></td>
+        <tr><th width="15%">最近更新</th>
+		<td width="85%">ID：{{lastid}} <a href="?reset=1">重置</a>&nbsp;&nbsp;<a href="/e/twdigest" target="_blank">手动采集</a></td>
+	</tr>
+        <tr><td>&nbsp;&nbsp;Powered By&nbsp;<a href="http://twitter.com/leiyue" target="_blank">LeiYue</a>&nbsp;|&nbsp;<a href="http://www.cqlianan.com">Unity</a></td>
         </tr>
     </tbody>
 </table>

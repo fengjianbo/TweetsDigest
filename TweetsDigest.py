@@ -23,23 +23,26 @@ class TweetsDigest(Plugin):
     def get(self,page):
         if page.param("reset")=='1':
             OptionSet.setValue("lastid", "0")
+            OptionSet.setValue("lastupdate", "Mon Jan 1 00:00:00 +0000 1900")
+        title = OptionSet.getValue("title",default="Twitter Digest")
         name = OptionSet.getValue("name",default="leiyue")
         count = OptionSet.getValue("count",default="200")
         url = OptionSet.getValue("url",default="0")
         category = OptionSet.getValue("category",default="0")
         tags = OptionSet.getValue("tags",default="tweetsdigest")
         date = OptionSet.getValue("date",default=False)
-        lastid = OptionSet.getValue("lastid",default="0")
+        lastid = OptionSet.getValue("lastid",default="0") + OptionSet.getValue("lastupdate",default="0")
         categories = Category.all()
         url = (url == "0") and None or url
         datechecked = date and 'checked="checked"' or ''
         domain = os.environ['HTTP_HOST']
-        return self.render_content('TweetsDigest.html',{'name':name ,'count':count,'url':url,'categories':categories,'category':category,'tags':tags,'datechecked':datechecked,'lastid':lastid,'domain':domain})
+        return self.render_content('TweetsDigest.html',{'title':title, 'name':name ,'count':count,'url':url,'categories':categories,'category':category,'tags':tags,'datechecked':datechecked,'lastid':lastid,'domain':domain})
 
     def post(self,page):
         number = (locale.atoi(page.param('count')) >= 200 ) and '200' or page.param('count')
         datechecked = page.param("date")
         date = (datechecked == "1") and True or False
+        OptionSet.setValue("title",page.param("title"))
         OptionSet.setValue("name",page.param("name"))
         OptionSet.setValue("count",number)
         OptionSet.setValue("url",('http://api.twitter.com/statuses/user_timeline/'+page.param('name')+'.xml?count='+number))
@@ -67,11 +70,13 @@ class TweetsDigest(Plugin):
         date = OptionSet.getValue("date")
         count=0
 
+	#FIXME:Add code to report error if url is invalid
         result = urlfetch.fetch(url)
+        lastupdate = OptionSet.getValue("lastupdate", "Mon Jan 1 00:00:00 +0000 1900")
+	time_now = datetime.datetime.utcnow()
         if result.status_code == 200:
             html='<ul>\n'
-            time_now = datetime.datetime.utcnow()
-            time_earlier = time_now - datetime.timedelta(days=7)
+            lasttime = datetime.datetime.strptime(lastupdate, '%a %b %d %H:%M:%S +0000 %Y')
             file_xml = minidom.parseString(result.content)
             statusList = file_xml.getElementsByTagName('status')
             for status in statusList:
@@ -81,10 +86,11 @@ class TweetsDigest(Plugin):
                 tweet = self.make_clickable(status.getElementsByTagName('text')[0].firstChild.data)
                 created_at = status.getElementsByTagName('created_at')[0].firstChild.data
                 created_time = datetime.datetime.strptime(created_at, '%a %b %d %H:%M:%S +0000 %Y')
-                if time_earlier > created_time:
+                if lasttime > created_time:
                     break
                 if date:
                     tweet += ' (' + datetime.datetime.strftime(created_time, '%Y-%m-%d') + ')'
+        		
                 html += '<li>' + tweet + '</li>\n'
                 count += 1
             html += '</ul>\n'
@@ -92,7 +98,8 @@ class TweetsDigest(Plugin):
             return
         if not count == 0:
             entry = Entry()
-            entry.title ='Weekly Twitter Digest ' + time_now.strftime('%F') + ' | ' + time_earlier.strftime('%F')
+            entry.title  = OptionSet.getValue("title",default="Twitter Digest")
+	    entry.title += time_now.strftime('%F') + ' | ' + lasttime.strftime('%F')
             entry.content = '<style type="text/css">ul{list-style: circle; list-style-type: circle; list-style-position: initial; list-style-image: initial; margin: 0px 0px 0px 25px;}</style>\n\n' + html
             if not category == '0':
                 cs = Category.all().filter('name =',category)
@@ -102,5 +109,7 @@ class TweetsDigest(Plugin):
             entry.settags(tags)
             entry.save(True)
             OptionSet.setValue("lastid",tweetid)
+            OptionSet.setValue("lastupdate",time_now.strftime('%a %b %d %H:%M:%S +0000 %Y'))
 #            print 'Success!'
             return
+	    entry.title += time_now.strftime('%F') + ' | ' + time_earlier.strftime('%F')
