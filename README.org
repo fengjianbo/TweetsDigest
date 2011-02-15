@@ -23,7 +23,7 @@
   Activate TweetsDigest plugin in Micolog's admin
 
 ** Dependencies
-   TweetsDigest depends on [[github.com/xuming/micolog.git][Micolog]] written by [[xuming.net][xuming]]
+   TweetsDigest depends on Micolog<http:s//github.com/xuming/micolog.git> written by xuming<http://xuming.net>
 
    Make sure you have the lastest Micolog running on GAE. *Nor GFW will block you.*
 
